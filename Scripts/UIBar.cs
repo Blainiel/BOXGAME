@@ -42,7 +42,9 @@ public class UIBar : MonoBehaviour {
 				StartCoroutine(CollectCoin());
 			break;	
 			case PowerUpType.Win:
-				EndGame("You Win!!");
+			if (totalCoinValue == 50){
+				EndGame("You Win!!");}
+				else StartCoroutine(CollectCoin());
 			break;	
 		}
 	}
@@ -55,6 +57,14 @@ public class UIBar : MonoBehaviour {
 			coinNum.text = (totalCoinValue++).ToString();
 			yield return new WaitForFixedUpdate();
 		}
+				if (totalCoinValue == 50){
+		while (bar.fillAmount < tempAmount)
+		{
+			bar.fillAmount += ammountToAdd;
+			yield return new WaitForSeconds(ammountToAdd);
+		}
+		}
+				else totalCoinValue -= 5;
 	}
 
 

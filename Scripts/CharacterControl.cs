@@ -16,9 +16,10 @@ public class CharacterControl : MonoBehaviour {
 	
 	void Update () {
 
+if (!gameOver){
 
 		if (characterController.isGrounded){
-
+			
 			if (Input.GetKeyDown(KeyCode.Space)){
 				moveVector3.y = jumpForce * Time.deltaTime;
 			}
@@ -29,4 +30,5 @@ public class CharacterControl : MonoBehaviour {
 		moveVector3.y -= gravity * Time.deltaTime;
 		characterController.Move(moveVector3);		
 	}
+}
 }
