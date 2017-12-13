@@ -15,13 +15,15 @@ public class UIBar : MonoBehaviour {
 	
 	public float powerLevel = 0.1f;
 	public float ammountToAdd = 0.01f;
+	string [] collectedItems = {"Cookie","Cake", "Apple" };
 
 	public enum PowerUpType 
 	{
 		PowerUp,
 		PowerDown,
 		CollectCoin,
-		Win
+		Win,
+		Collectable
 	}
 
 	public PowerUpType powerUp;
@@ -42,10 +44,11 @@ public class UIBar : MonoBehaviour {
 				StartCoroutine(CollectCoin());
 			break;	
 			case PowerUpType.Win:
-			if (totalCoinValue == 50){
-				EndGame("You Win!!");}
-				else StartCoroutine(CollectCoin());
-			break;	
+				EndGame("You Win!!");
+				break;	
+			case PowerUpType.Collectable:
+				StartCoroutine(CollectedCollectables());
+				break;
 		}
 	}
 	IEnumerator CollectCoin () {
@@ -57,14 +60,6 @@ public class UIBar : MonoBehaviour {
 			coinNum.text = (totalCoinValue++).ToString();
 			yield return new WaitForFixedUpdate();
 		}
-				if (totalCoinValue == 50){
-		while (bar.fillAmount < tempAmount)
-		{
-			bar.fillAmount += ammountToAdd;
-			yield return new WaitForSeconds(ammountToAdd);
-		}
-		}
-				else totalCoinValue -= 5;
 	}
 
 
@@ -97,6 +92,19 @@ public class UIBar : MonoBehaviour {
 		if (bar.fillAmount == 0)
 		{
 			EndGame("Game Over");
+		}
+	}
+
+	IEnumerator CollectedCollectables (){
+		foreach (string item in collectedItems)
+		{
+					totalCoinValue = int.Parse(coinNum.text);
+		int tempAmount = totalCoinValue + coinValue;
+		while (totalCoinValue <= tempAmount)
+		{
+			coinNum.text = (totalCoinValue++).ToString();
+			yield return new WaitForFixedUpdate();
+		}
 		}
 	}
 
